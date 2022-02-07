@@ -14,22 +14,22 @@
 
 		<div class="mb-3">
 			<label for="inputSlug" class="form-label">Символьный код статьи</label>
-			<input type="text" class="form-control" id="inputSlug" name="slug">		
+			<input type="text" class="form-control" id="inputSlug" name="slug" value="{{ old('slug') }}">		
 		</div>
 
 		<div class="mb-3">
 			<label for="inputTitle" class="form-label">Название статьи</label>
-			<input type="text" class="form-control" id="inputTitle" name="title">		
+			<input type="text" class="form-control" id="inputTitle" name="title" value="{{ old('title') }}">		
 		</div>
 
 		<div class="mb-3">
 			<label for="inputShort" class="form-label">Краткое описание статьи</label>
-			<input type="text" class="form-control" id="inputShort" name="short">	
+			<input type="text" class="form-control" id="inputShort" name="short" value="{{ old('short') }}">	
 		</div>
 
 		<div class="mb-3">
 			<label for="inputBody" class="form-label">Детальное описание</label>
-			<textarea class="form-control" id="inputBody" name="body" style="min-height: 150px;"></textarea>
+			<textarea class="form-control" id="inputBody" name="body" style="min-height: 150px;">{{ old('body') }}</textarea>
 		</div>
 
 		<div class="mb-3 form-check">

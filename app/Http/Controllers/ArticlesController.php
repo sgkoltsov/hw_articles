@@ -31,26 +31,15 @@ class ArticlesController extends Controller
             'title' => 'required|min:5|max:100',
             'short' => 'required|max:255',
             'body' => 'required',
-        ]);        
-
-        if (request('published')) {
-                Article::create([
-                    'slug' => request('slug'),
-                    'title' => request('title'),
-                    'short' => request('short'),
-                    'body' => request('body'),
-                    'published' => '1'          
-                ]);            
-        } else {
-               Article::create([
-                    'slug' => request('slug'),
-                    'title' => request('title'),
-                    'short' => request('short'),
-                    'body' => request('body'),            
-                ]); 
-        }
-
-        // Article::create(request()->all());     
+        ]);
+        
+        Article::create([
+            'slug' => request('slug'),
+            'title' => request('title'),
+            'short' => request('short'),
+            'body' => request('body'),
+            'published' => request()->has('published'),        
+        ]);            
 
         return redirect('/');          
     }
