@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Article;
-use App\Http\Requests\CustomFormRequest;
+use App\Models\Articletag;
+use App\Http\Requests\ArticleFieldsValidation;
 
 class ArticlesController extends Controller
 {
     public function index()
     {
-        $articles = Article::latest('updated_at')->get();
+        $articles = Article::with('tags')->latest('updated_at')->get();
 
         return view('welcome', compact('articles'));
     }
@@ -25,19 +26,14 @@ class ArticlesController extends Controller
         return view('articles.create');
     }
 
-    public function store(CustomFormRequest $request)
+    public function store(ArticleFieldsValidation $request, \App\Services\TagsSynchronizer $tagsSync)
     {
-        // $this->validate(request(), [
-        //     'slug' => 'required|unique:articles|alpha_dash',
-        //     'title' => 'required|min:5|max:100',
-        //     'short' => 'required|max:255',
-        //     'body' => 'required',
-        // ]);        
-
         $attributes = $request->validated();
         $attributes['published'] = $request->has('published');
 
-        Article::create($attributes);      
+        $article = Article::create($attributes);
+
+        $tagsSync->sync(collect(explode(',', $request->tags)), $article);
 
         return redirect('/');        
     }
@@ -52,12 +48,14 @@ class ArticlesController extends Controller
         return view('articles.edit', compact('article'));
     }
 
-    public function update(Article $article, CustomFormRequest $request)
+    public function update(Article $article, ArticleFieldsValidation $request, \App\Services\TagsSynchronizer $tagsSync)
     {
         $attributes = $request->validated();        
         $attributes['published'] = $request->has('published');
 
         $article->update($attributes);
+
+        $tagsSync->sync(collect(explode(',', $request->tags)), $article);
 
         return redirect('/');
     }

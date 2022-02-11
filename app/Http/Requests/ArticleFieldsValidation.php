@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Article;
 
-class CustomFormRequest extends FormRequest
+class ArticleFieldsValidation extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
