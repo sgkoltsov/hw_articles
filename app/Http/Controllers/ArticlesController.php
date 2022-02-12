@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Article;
-use App\Http\Requests\CustomFormRequest;
+use App\Http\Requests\ArticleCreateValidation;
+use App\Http\Requests\ArticleUpdateValidation;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class ArticlesController extends Controller
 {
@@ -25,15 +28,8 @@ class ArticlesController extends Controller
         return view('articles.create');
     }
 
-    public function store(CustomFormRequest $request)
+    public function store(ArticleCreateValidation $request)
     {
-        // $this->validate(request(), [
-        //     'slug' => 'required|unique:articles|alpha_dash',
-        //     'title' => 'required|min:5|max:100',
-        //     'short' => 'required|max:255',
-        //     'body' => 'required',
-        // ]);        
-
         $attributes = $request->validated();
         $attributes['published'] = $request->has('published');
 
@@ -52,10 +48,24 @@ class ArticlesController extends Controller
         return view('articles.edit', compact('article'));
     }
 
-    public function update(Article $article, CustomFormRequest $request)
+    public function update(Article $article, Request $request)
     {
-        $attributes = $request->validated();        
-        $attributes['published'] = $request->has('published');
+        // $attributes = $request->validated();
+
+        $validator = Validator::make($request->all(), [
+            'slug' => [
+                'required',
+                'alpha_dash',
+                Rule::unique('articles')->ignore($article),
+            ],             
+            'title' => 'required|min:5|max:100',
+            'short' => 'required|max:255',
+            'body' => 'required',
+        ]);
+
+        $attributes = $validator->validated();
+
+        $attributes['published'] = $request->has('published');        
 
         $article->update($attributes);
 

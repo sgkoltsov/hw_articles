@@ -1,8 +1,7 @@
 <div class="mb-3">
 	<label for="inputSlug" class="form-label">Символьный код статьи</label>
 	<input type="text" class="form-control" id="inputSlug" name="slug" 
-		value="{{ old('slug', isset($article) ? $article->slug : '') }}"
-		{{ isset($article) ? 'disabled' : '' }}
+		value="{{ old('slug', isset($article) ? $article->slug : '') }}"		
 	>		
 </div>
 
