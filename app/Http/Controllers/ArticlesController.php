@@ -6,8 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\Article;
 use App\Http\Requests\ArticleCreateValidation;
 use App\Http\Requests\ArticleUpdateValidation;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 
 class ArticlesController extends Controller
 {
@@ -48,23 +46,9 @@ class ArticlesController extends Controller
         return view('articles.edit', compact('article'));
     }
 
-    public function update(Article $article, Request $request)
-    {
-        // $attributes = $request->validated();
-
-        $validator = Validator::make($request->all(), [
-            'slug' => [
-                'required',
-                'alpha_dash',
-                Rule::unique('articles')->ignore($article),
-            ],             
-            'title' => 'required|min:5|max:100',
-            'short' => 'required|max:255',
-            'body' => 'required',
-        ]);
-
-        $attributes = $validator->validated();
-
+    public function update(Article $article, ArticleUpdateValidation $request)
+    {        
+        $attributes = $request->validated();
         $attributes['published'] = $request->has('published');        
 
         $article->update($attributes);

@@ -4,8 +4,6 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-// use Illuminate\Validation\Validator;
-use Illuminate\Support\Facades\Validator;
 
 class ArticleUpdateValidation extends FormRequest
 {
@@ -25,22 +23,18 @@ class ArticleUpdateValidation extends FormRequest
      * @return array
      */
     public function rules()
-    {
-        $collection = \App\Models\Article::where('slug', '=', $this->slug)->get();
+    {        
+        $article = $this->route('article');        
 
-        foreach ($collection as $article) {        
-            $validator = Validator::make($this->all(), [
-                'slug' => [
-                    'required',
-                    'alpha_dash',
-                    Rule::unique('articles')->ignore($article->id),
-                ],             
-                'title' => ['required', 'min:5', 'max:100'],
-                'short' => ['required', 'max:255'],
-                'body' => ['required'],
-            ]);
-        }
-
-        return $validator;
+        return [            
+            'slug' => [
+                'required',
+                Rule::unique('articles')->ignore($article),
+                'alpha_dash',                
+            ], 
+            'title' => 'required|min:5|max:100',
+            'short' => 'required|max:255',
+            'body' => 'required',
+        ];      
     }
 }
