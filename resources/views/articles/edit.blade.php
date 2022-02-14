@@ -13,9 +13,7 @@
 		@csrf
 		@method('patch')
 
-		@include('articles.formfields')
-
-		
+		@include('articles.formfields')		
 
 		<button type="submit" class="btn btn-primary mb-2">Изменить</button>
 	</form>
