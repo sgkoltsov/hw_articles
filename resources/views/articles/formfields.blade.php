@@ -5,6 +5,17 @@
 	>		
 </div>
 
+<div class="form-group">
+	<label for="inputTags">Теги</label>
+	<input
+		type="text"
+		name="tags"
+		class="form-control"
+		id="inputTags"
+		value="{{ old('tags', isset($article) ? $article->tags->pluck('name')->implode(',') : '') }}"
+	>
+</div>
+
 <div class="mb-3">
 	<label for="inputTitle" class="form-label">Название статьи</label>
 	<input type="text" class="form-control" id="inputTitle" name="title" value="{{ old('title', isset($article) ? $article->title : '') }}">		

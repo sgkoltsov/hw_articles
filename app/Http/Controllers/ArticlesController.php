@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Article;
+use App\Models\Articletag;
 use App\Http\Requests\ArticleCreateValidation;
 use App\Http\Requests\ArticleUpdateValidation;
 
@@ -11,7 +12,7 @@ class ArticlesController extends Controller
 {
     public function index()
     {
-        $articles = Article::latest('updated_at')->get();
+        $articles = Article::with('tags')->latest('updated_at')->get();
 
         return view('welcome', compact('articles'));
     }
@@ -24,14 +25,17 @@ class ArticlesController extends Controller
     public function create()
     {
         return view('articles.create');
-    }
+    }    
 
-    public function store(ArticleCreateValidation $request)
+    public function store(ArticleCreateValidation $request, \App\Services\TagsSynchronizer $tagsSync)
+
     {
         $attributes = $request->validated();
         $attributes['published'] = $request->has('published');
 
-        Article::create($attributes);      
+        $article = Article::create($attributes);
+
+        $tagsSync->sync(collect(explode(',', $request->tags)), $article);
 
         return redirect('/');        
     }
@@ -45,13 +49,15 @@ class ArticlesController extends Controller
     {
         return view('articles.edit', compact('article'));
     }
-
-    public function update(Article $article, ArticleUpdateValidation $request)
-    {        
-        $attributes = $request->validated();
-        $attributes['published'] = $request->has('published');        
+    
+    public function update(Article $article, ArticleUpdateValidation $request, \App\Services\TagsSynchronizer $tagsSync)
+    {
+        $attributes = $request->validated();        
+        $attributes['published'] = $request->has('published');
 
         $article->update($attributes);
+
+        $tagsSync->sync(collect(explode(',', $request->tags)), $article);
 
         return redirect('/');
     }

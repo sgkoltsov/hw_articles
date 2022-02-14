@@ -25,7 +25,8 @@
 
 		<main class="container">
 			<div class="row g-5">
-				@yield('content')		    	
+				@yield('content')
+				@include('layout.sidebar')		    	
 		    </div>
 		</main>
 

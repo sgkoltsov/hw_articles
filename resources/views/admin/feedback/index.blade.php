@@ -2,9 +2,10 @@
 
 @section('content')
 
-    <h3 class="pb-4 mb-0 fst-italic border-bottom">
-        Список обращений
-    </h3>      
+    <div class="col-md-8">
+        <h3 class="pb-4 mb-0 fst-italic border-bottom">
+            Список обращений
+        </h3>      
 
         <table class="table">
             <thead>                
@@ -25,7 +26,8 @@
                     </tr>
                 @endforeach
             </tbody>
-        </table>   
+        </table>
+    </div>
     
 @endsection
 

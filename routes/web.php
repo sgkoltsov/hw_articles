@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticlesController;
 use App\Http\Controllers\FeedbacksController;
+use App\Http\Controllers\TagController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,3 +28,5 @@ Route::delete('/articles/{article}', [ArticlesController::class, 'destroy']);
 Route::get('/contacts', [FeedbacksController::class, 'create']);
 Route::post('/admin/feedback', [FeedbacksController::class, 'store']);
 Route::get('/admin/feedback', [FeedbacksController::class, 'index']);
+
+Route::get('/articles/tags/{tag}', [TagController::class, 'index']);
