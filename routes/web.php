@@ -32,5 +32,3 @@ Route::get('/admin/feedback', [FeedbacksController::class, 'index']);
 Route::get('/articles/tags/{tag}', [TagsController::class, 'index']);
 
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

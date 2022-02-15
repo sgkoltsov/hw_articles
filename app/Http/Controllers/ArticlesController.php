@@ -15,11 +15,13 @@ class ArticlesController extends Controller
     public function __construct()
     {
         $this->synchronizeArticleWithTags = new TagsSynchronizer();
+        $this->middleware('auth');
+        $this->middleware('can:update,article')->except('index', 'store', 'create');
     } 
 
     public function index()
     {
-        $articles = Article::with('tags')->latest('updated_at')->get();
+        $articles = Article::where('user_id', auth()->id())->with('tags')->latest('updated_at')->get();
 
         return view('welcome', compact('articles'));
     }
@@ -39,6 +41,7 @@ class ArticlesController extends Controller
     {
         $attributes = $request->validated();
         $attributes['published'] = $request->has('published');
+        $attributes['user_id'] = auth()->id();
 
         $article = Article::create($attributes);
 
@@ -60,7 +63,7 @@ class ArticlesController extends Controller
     public function update(Article $article, ArticleUpdateValidation $request)
     {
         $attributes = $request->validated();        
-        $attributes['published'] = $request->has('published');
+        $attributes['published'] = $request->has('published');       
 
         $article->update($attributes);
 

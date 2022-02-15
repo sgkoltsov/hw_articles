@@ -17,7 +17,7 @@
 		<meta name="theme-color" content="#7952b3">   
 	  
 	    <!-- Custom styles for this template -->
-	    <link href="/css/style.css" rel="stylesheet">
+	    <link href="/css/style.css" rel="stylesheet">	    
 	</head>
 	<body> 
 
@@ -26,7 +26,11 @@
 		<main class="container">
 			<div class="row g-5">
 				@yield('content')
-				@include('layout.sidebar')		    	
+
+				@section('sidebar')
+					@include('layout.sidebar')		    	
+				@show
+
 		    </div>
 		</main>
 
