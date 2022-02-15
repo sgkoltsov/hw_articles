@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticlesController;
 use App\Http\Controllers\FeedbacksController;
-use App\Http\Controllers\TagController;
+use App\Http\Controllers\TagsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,4 +29,8 @@ Route::get('/contacts', [FeedbacksController::class, 'create']);
 Route::post('/admin/feedback', [FeedbacksController::class, 'store']);
 Route::get('/admin/feedback', [FeedbacksController::class, 'index']);
 
-Route::get('/articles/tags/{tag}', [TagController::class, 'index']);
+Route::get('/articles/tags/{tag}', [TagsController::class, 'index']);
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

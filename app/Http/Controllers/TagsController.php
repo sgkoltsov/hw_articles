@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Articletag;
+use App\Models\Tag;
 
-class TagController extends Controller
+class TagsController extends Controller
 {
-    public function index(Articletag $tag)
+    public function index(Tag $tag)
     {
         $articles = $tag->articles()->with('tags')->get();
 

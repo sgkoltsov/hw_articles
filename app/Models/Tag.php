@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Articletag extends Model
+class Tag extends Model
 {
     use HasFactory;
 
@@ -14,10 +14,5 @@ class Articletag extends Model
     public function articles()
     {
         return $this->belongsToMany(Article::class);
-    }
-
-    public static function tagsCloud()
-    {
-        return (new static)->has('articles')->get();
     }
 }
