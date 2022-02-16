@@ -15,13 +15,15 @@ class ArticlesController extends Controller
     public function __construct()
     {
         $this->synchronizeArticleWithTags = new TagsSynchronizer();
-        $this->middleware('auth');
-        $this->middleware('can:update,article')->except('index', 'store', 'create');
+        // $this->middleware('auth')->except('index', 'about');
+        $this->middleware('can:update,article')->except('index', 'about', 'create', 'store');
     } 
 
     public function index()
     {
-        $articles = Article::where('user_id', auth()->id())->with('tags')->latest('updated_at')->get();
+        // $articles = Article::where('user_id', auth()->id())->with('tags')->latest('updated_at')->get();
+
+        $articles = Article::with('tags')->latest('updated_at')->get();
 
         return view('welcome', compact('articles'));
     }
