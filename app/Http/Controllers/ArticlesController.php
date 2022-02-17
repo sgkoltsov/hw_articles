@@ -10,11 +10,11 @@ use \App\Services\TagsSynchronizer;
 
 class ArticlesController extends Controller
 {
-    private TagsSynchronizer $synchronizeArticleWithTags;
+    private TagsSynchronizer $sync;
 
-    public function __construct()
+    public function __construct(TagsSynchronizer $sync)
     {
-        $this->synchronizeArticleWithTags = new TagsSynchronizer();
+        $this->sync = $sync;
     } 
 
     public function index()
@@ -38,11 +38,11 @@ class ArticlesController extends Controller
 
     {
         $attributes = $request->validated();
-        $attributes['published'] = $request->has('published');
+        $attributes['published'] = $request->has('published');        
 
         $article = Article::create($attributes);
 
-        $this->synchronizeArticleWithTags->sync(explode(',', $request->tags), $article);
+        $this->sync->sync(explode(',', $request->tags), $article);
 
         return redirect('/');        
     }
@@ -60,11 +60,11 @@ class ArticlesController extends Controller
     public function update(Article $article, ArticleUpdateValidation $request)
     {
         $attributes = $request->validated();        
-        $attributes['published'] = $request->has('published');
+        $attributes['published'] = $request->has('published');        
 
         $article->update($attributes);
 
-        $this->synchronizeArticleWithTags->sync(explode(',', $request->tags), $article);
+        $this->sync->sync(explode(',', $request->tags), $article);
 
         return redirect('/');
     }
