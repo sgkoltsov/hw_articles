@@ -5,7 +5,10 @@
     <div class="col-md-8">
         <h3 class="pb-0 mb-0 fst-italic">
             {{ $article->title }}  
-        </h3>        
+        </h3>
+
+        @include('articles.tags', ['tags' => $article->tags])
+             
         <p class="blog-post-meta mb-0">Дата создания: {{  $article->created_at->toFormattedDateString() }}</p>
         <p class="blog-post-meta">Дата последнего редактирования: {{  $article->updated_at->toFormattedDateString() }}</p>
         <hr>
