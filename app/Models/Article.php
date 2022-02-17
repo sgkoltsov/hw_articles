@@ -10,7 +10,7 @@ class Article extends Model
     use HasFactory;
 
     // public $guarded = [];
-    public $fillable = ['slug', 'title', 'short', 'body', 'published'];
+    public $fillable = ['slug', 'title', 'short', 'body', 'published', 'user_id'];
 
     public function getRouteKeyName()
     {
