@@ -15,7 +15,8 @@ class ArticlesController extends Controller
     public function __construct(TagsSynchronizer $sync)
     {
         $this->sync = $sync;        
-        $this->middleware('can:update,article')->except('index', 'about', 'create', 'store');
+        $this->middleware('can:update,article')->except('index', 'create', 'store');
+        $this->middleware('can:delete,article')->only('destroy');
     } 
 
     public function index()
@@ -23,11 +24,6 @@ class ArticlesController extends Controller
         $articles = Article::with('tags')->latest('updated_at')->get();
 
         return view('welcome', compact('articles'));
-    }
-
-    public function about()
-    {
-        return view('about');
     }
 
     public function create()
