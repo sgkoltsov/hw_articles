@@ -13,7 +13,7 @@ class ArticleActions extends Mailable
     use Queueable, SerializesModels;
 
     public $article;
-    public $type;
+    public $typeOfActionWithArticle;
     public $deleteArticle;
 
     /**
@@ -21,10 +21,10 @@ class ArticleActions extends Mailable
      *
      * @return void
      */
-    public function __construct(Article $article, $type, $deleteArticle = false)
+    public function __construct(Article $article, string $typeOfActionWithArticle, $deleteArticle = false)
     {
         $this->article = $article;
-        $this->type = $type;
+        $this->typeOfActionWithArticle = $typeOfActionWithArticle;
         $this->deleteArticle = $deleteArticle;
     }
 

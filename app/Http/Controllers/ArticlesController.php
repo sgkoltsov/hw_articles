@@ -6,7 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\Article;
 use App\Http\Requests\ArticleCreateValidation;
 use App\Http\Requests\ArticleUpdateValidation;
-use \App\Services\TagsSynchronizer;
+use App\Services\TagsSynchronizer;
+use App\Events\ArticleCreated;
+use App\Events\ArticleUpdated;
+use App\Events\ArticleDeleted;
 
 class ArticlesController extends Controller
 {
@@ -43,6 +46,8 @@ class ArticlesController extends Controller
 
         $this->sync->sync(explode(',', $request->tags), $article);
 
+        event(new ArticleCreated($article));
+
         return redirect('/');        
     }
     
@@ -66,11 +71,15 @@ class ArticlesController extends Controller
 
         $this->sync->sync(explode(',', $request->tags), $article);
 
+        event(new ArticleUpdated($article));
+
         return redirect('/');
     }
 
     public function destroy(Article $article)
-    {        
+    {   
+        event(new ArticleDeleted($article));
+
         $article->delete();
 
         return redirect('/');
