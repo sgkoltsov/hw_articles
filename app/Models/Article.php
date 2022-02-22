@@ -27,4 +27,9 @@ class Article extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function admin()
+    {
+        return User::where('email', config('services.admin.email'))->first();
+    }
 }

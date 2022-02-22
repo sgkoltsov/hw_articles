@@ -3,21 +3,20 @@
 namespace App\Observers;
 
 use App\Models\Article;
-use App\Mail\ArticleActions;
+use App\Notifications\ArticleCreatedNotification;
+use App\Notifications\ArticleUpdatedNotification;
+use App\Notifications\ArticleDeletedNotification;
 
 class ArticleObserver
-{
-    /**
+{    /**
      * Handle the Article "created" event.
      *
      * @param  \App\Models\Article  $article
      * @return void
      */
     public function created(Article $article)
-    {        
-        \Mail::to(config('services.admin.email'))->send(
-            new ArticleActions($article, 'Создание новой статьи')
-        );        
+    {   
+        $article->admin()->notify(new ArticleCreatedNotification($article));
     }
 
     /**
@@ -27,10 +26,8 @@ class ArticleObserver
      * @return void
      */
     public function updated(Article $article)
-    {        
-        \Mail::to(config('services.admin.email'))->send(
-            new ArticleActions($article, 'Изменение статьи')
-        );        
+    {  
+        $article->admin()->notify(new ArticleUpdatedNotification($article));     
     }
 
     /**
@@ -41,9 +38,7 @@ class ArticleObserver
      */
     public function deleted(Article $article)
     {
-        \Mail::to(config('services.admin.email'))->send(
-            new ArticleActions($article, 'Удаление статьи', true)
-        );
+        $article->admin()->notify(new ArticleDeletedNotification($article));
     }
 
     /**
