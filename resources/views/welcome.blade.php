@@ -13,6 +13,7 @@
 
                 @include('articles.tags', ['tags' => $article->tags])
 
+                <p class="blog-post-meta mb-0">Пользователь: {{ $article->owner->name }}</p>
                 <p class="blog-post-meta mb-0">Дата создания: {{  $article->created_at->toFormattedDateString() }}</p>
                 <p class="blog-post-meta">Дата последнего редактирования: {{  $article->updated_at->toFormattedDateString() }}</p>
                 <p>{{ $article->short }}</p>            

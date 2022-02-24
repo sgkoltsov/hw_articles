@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Article;
 use App\Http\Requests\ArticleCreateValidation;
 use App\Http\Requests\ArticleUpdateValidation;
-use \App\Services\TagsSynchronizer;
+use App\Services\TagsSynchronizer;
 
 class ArticlesController extends Controller
 {
@@ -41,7 +41,7 @@ class ArticlesController extends Controller
 
         $article = Article::create($attributes);
 
-        $this->sync->sync(explode(',', $request->tags), $article);
+        $this->sync->sync(explode(',', $request->tags), $article);        
 
         return redirect('/');        
     }
@@ -64,13 +64,13 @@ class ArticlesController extends Controller
 
         $article->update($attributes);
 
-        $this->sync->sync(explode(',', $request->tags), $article);
+        $this->sync->sync(explode(',', $request->tags), $article);        
 
         return redirect('/');
     }
 
     public function destroy(Article $article)
-    {        
+    {  
         $article->delete();
 
         return redirect('/');
