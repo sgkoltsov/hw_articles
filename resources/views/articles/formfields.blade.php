@@ -31,16 +31,18 @@
 	<textarea class="form-control" id="inputBody" name="body" style="min-height: 150px;">{{ old('body', isset($article) ? $article->body : '') }}</textarea>
 </div>
 
-<div class="mb-3 form-check">
-	<input
-		type="checkbox"
-		class="form-check-input"
-		id="exampleCheck1"
-		name="published"
-		@if(isset($article))
-			{{ $article->published  ? 'checked' : '' }}
-		@endif
-		{{ null !== old('published') ? 'checked' : '' }}	
-	>
-	<label class="form-check-label" for="exampleCheck1">Опубликовано</label>
-</div>
+@admin
+	<div class="mb-3 form-check">
+		<input
+			type="checkbox"
+			class="form-check-input"
+			id="exampleCheck1"
+			name="published"
+			@if(isset($article))
+				{{ $article->published  ? 'checked' : '' }}
+			@endif
+			{{ null !== old('published') ? 'checked' : '' }}	
+		>
+		<label class="form-check-label" for="exampleCheck1">Опубликовано</label>
+	</div>
+@endadmin
