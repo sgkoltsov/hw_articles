@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticlesController;
 use App\Http\Controllers\FeedbacksController;
 use App\Http\Controllers\TagsController;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,8 +31,10 @@ Route::get('/about', function() {
 
 Route::get('/contacts', [FeedbacksController::class, 'create']);
 Route::post('/admin/feedback', [FeedbacksController::class, 'store']);
-Route::get('/admin/feedback', [FeedbacksController::class, 'index']);
+Route::get('/admin/feedback', [FeedbacksController::class, 'index'])->middleware('admin');
 
 Route::get('/articles/tags/{tag}', [TagsController::class, 'index']);
+
+Route::get('/admin', [AdminController::class, 'index']);
 
 Auth::routes();

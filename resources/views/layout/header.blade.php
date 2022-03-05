@@ -51,9 +51,18 @@
 			<a class="p-2 link-secondary" href="/">Главная</a>
 			<a class="p-2 link-secondary" href="/about">О нас</a>
 			<a class="p-2 link-secondary" href="/contacts">Контакты</a>
-			<a class="p-2 link-secondary" href="/articles/create">Создать статью</a>
-			<a class="p-2 link-secondary" href="/admin/feedback">Админ. раздел</a>
-			<a class="p-2 link-secondary" href="/telescope">Telescope</a>				
+			<a class="p-2 link-secondary" href="/articles/create">Создать статью</a>			
+			<a class="p-2 link-secondary" href="/telescope">Telescope</a>
+						
+		</nav>
+	</div>
+
+	<div class="nav-scroller">
+		<nav class="nav d-flex justify-content-between" style="justify-content: left!important;">
+			@admin				
+				<a class="p-2 link-info" href="/admin">Управление статьями</a>
+				<a class="p-2 link-info" href="/admin/feedback">Просмотр обращений</a>
+			@endadmin
 		</nav>
 	</div>
 </div>

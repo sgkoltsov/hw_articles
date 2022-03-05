@@ -7,6 +7,11 @@ use App\Models\Feedback;
 
 class FeedbacksController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth', ['except' => 'index']);
+    }
+
     public function index()
     {
         $feedbacks = Feedback::latest()->get();
@@ -29,10 +34,8 @@ class FeedbacksController extends Controller
         Feedback::create([
             'email' => request('email'),           
             'body' => request('body'),            
-        ]);
+        ]);            
 
-        // Feedback::create(request()->all());     
-
-        return redirect('/admin/feedback');       
+        return redirect('/'); 
     }
 }
