@@ -47,10 +47,6 @@ class SendNotifyToAllUsersAboutArticlesForPeriod extends Command
 
         $articlesTitle = Article::where('created_at', '>', $from)->get()->pluck('title')->toArray();
 
-        $users = User::all();
-
-        foreach ($users as $user) {
-            $user->notify(new ArticlesForPeriodNotification($articlesTitle));          
-        }
+        User::all()->map->notify(new ArticlesForPeriodNotification($articlesTitle));
     }
 }
