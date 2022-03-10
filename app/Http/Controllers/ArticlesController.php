@@ -37,7 +37,7 @@ class ArticlesController extends Controller
         return view('articles.create');
     }    
 
-    public function store(ArticleCreateValidation $request)
+    public function store(ArticleCreateValidation $request, \App\Services\Pushall $pushall)
 
     {
         $attributes = $request->validated();
@@ -47,7 +47,9 @@ class ArticlesController extends Controller
 
         $article = Article::create($attributes);
 
-        $this->sync->sync(explode(',', $request->tags), $article);        
+        $this->sync->sync(explode(',', $request->tags), $article);
+
+        $pushall->send('Создана новая статья', $attributes['title']);
 
         return redirect('/');        
     }
