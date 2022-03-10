@@ -17,18 +17,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $numberOfUsers = rand(2, 5);
-
-        $role = Role::factory()->create(['name' => 'Author']);
-
-        // for ($i=0; $i < $numberOfUsers; $i++) { 
-        //     User::factory()
-        //         ->hasAttached($role)               
-        //         ->hasArticles(rand(3,7), function(array $attributes, User $user) {
-        //             return ['user_id' => $user->id];
-        //         })
-        //         ->create();
-        // }   
+        $role = Role::factory()->create(['name' => 'Author']);           
 
         $users = User::factory()
             ->count(rand(2, 5))    
@@ -45,7 +34,7 @@ class DatabaseSeeder extends Seeder
 
             $randomArticlesCount = rand(3, 7);
             
-            for ($i=0; $i < $randomArticlesCount; $i++) { 
+            for ( $i = 0 ; $i < $randomArticlesCount ; $i++ ) {
            
                 $randomTagsCount = rand(1, 5);
 
