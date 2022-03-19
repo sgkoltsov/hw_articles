@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Mail\ArticleActions;
+use App\Models\Comment;
 
 class Article extends Model
 {
@@ -31,5 +32,10 @@ class Article extends Model
     public function admin()
     {
         return User::where('email', config('services.admin.email'))->first();
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 }

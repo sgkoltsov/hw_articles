@@ -5,6 +5,7 @@ use App\Http\Controllers\ArticlesController;
 use App\Http\Controllers\FeedbacksController;
 use App\Http\Controllers\TagsController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CommentsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +17,8 @@ use App\Http\Controllers\AdminController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::post('/articles/comments', [CommentsController::class, 'store']);
 
 Route::get('/', [ArticlesController::class, 'index']);
 Route::get('/articles/create', [ArticlesController::class, 'create'])->middleware('auth');

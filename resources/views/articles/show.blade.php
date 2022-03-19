@@ -14,21 +14,49 @@
         <hr>
         <p>{{ $article->body }}</p>
         <hr>
-        <div class="btn-group">
 
-            <a href="/articles/{{ $article->slug }}/edit">
-                <button class="btn btn-primary me-4" style="width: 150px;">Редактировать</button>
-            </a>
+        @if ( auth()->check() && ( $article->owner == auth()->user() || auth()->user()->isAdmin() ) )
+            <div class="btn-group">
 
-            <form method="post" action="/articles/{{ $article->slug }}">
+                <a href="/articles/{{ $article->slug }}/edit">
+                    <button class="btn btn-primary me-4" style="width: 150px;">Редактировать</button>
+                </a>
 
-                @csrf
-                @method('delete')
+                <form method="post" action="/articles/{{ $article->slug }}">
 
-                <button type="submit" class="btn btn-danger" style="width: 150px;">Удалить</button>
-            </form>            
-        </div>
-        <hr>
+                    @csrf
+                    @method('delete')
+
+                    <button type="submit" class="btn btn-danger" style="width: 150px;">Удалить</button>
+                </form>            
+            </div>
+            <hr>
+        @endif
+
+        @include('articles.comments', ['comments' => $article->comments])            
+
+        @if (auth()->check())
+            <h4 class="pb-0 mb-4 fst-italic">
+                Оставить комментарий к статье...  
+            </h4>
+
+            <form method="post" action="/articles/comments">
+
+                @csrf               
+
+                <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+                <input type="hidden" name="article_id" value="{{ $article->id }}">
+                
+                <div class="mb-3">
+                    <textarea class="form-control" name="body" style="min-height: 150px;"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 150px;">Сохранить</button>
+            </form> 
+
+            <hr>
+        @endif
+
         <a class="link-info" href="/">Вернуться к списку статей</a>
     </div>
 

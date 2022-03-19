@@ -15,8 +15,8 @@ class ArticlesController extends Controller
     public function __construct(TagsSynchronizer $sync)
     {
         $this->sync = $sync;        
-        $this->middleware('can:update,article')->except('index', 'create', 'store');
-        $this->middleware('can:delete,article')->only('destroy');
+        $this->middleware('can:update,article')->only('edit', 'update');
+        $this->middleware('can:delete,article')->only('destroy');        
     } 
 
     public function index()
