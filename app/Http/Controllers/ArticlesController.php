@@ -7,6 +7,7 @@ use App\Models\Article;
 use App\Http\Requests\ArticleCreateValidation;
 use App\Http\Requests\ArticleUpdateValidation;
 use App\Services\TagsSynchronizer;
+use App\Services\Pushall;
 
 class ArticlesController extends Controller
 {
@@ -37,7 +38,7 @@ class ArticlesController extends Controller
         return view('articles.create');
     }    
 
-    public function store(ArticleCreateValidation $request, \App\Services\Pushall $pushall)
+    public function store(ArticleCreateValidation $request, Pushall $pushall)
 
     {
         $attributes = $request->validated();
