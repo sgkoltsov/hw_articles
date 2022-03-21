@@ -48,7 +48,7 @@
                 <input type="hidden" name="article_id" value="{{ $article->id }}">
                 
                 <div class="mb-3">
-                    <textarea class="form-control" name="body" style="min-height: 150px;"></textarea>
+                    <textarea class="form-control" name="body" style="min-height: 50px;"></textarea>
                 </div>
 
                 <button type="submit" class="btn btn-primary" style="width: 150px;">Сохранить</button>
@@ -56,6 +56,28 @@
 
             <hr>
         @endif
+
+        <h4 class="pb-0 mb-4 fst-italic">
+            История изменений ...  
+        </h4>
+
+        @forelse ($article->history as $item)     
+
+            <div class="alert alert-danger">
+                <b>Before: </b>{{ $item->pivot->before }}
+            </div>
+
+            <div class="alert alert-success">
+                <b>After: </b>{{ $item->pivot->after }}
+            </div>
+
+            <p>{{ $item->email }} - {{ $item->pivot->created_at->diffForHumans() }}</p>
+
+            <hr>
+        @empty            
+            <p>нет изменений</p>  
+            
+        @endforelse
 
         <a class="link-info" href="/">Вернуться к списку статей</a>
     </div>
