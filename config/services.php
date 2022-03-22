@@ -31,7 +31,8 @@ return [
     ],
 
     'admin' => [
-        'email' => env('ADMIN_EMAIL'),
+        // 'email' => env('ADMIN_EMAIL'),
+        'email' => 'admin@mail.ru',
     ],
 
     'pushall' => [
