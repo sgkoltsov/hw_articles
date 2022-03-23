@@ -40,8 +40,7 @@
 			name="published"
 			@if(isset($article))
 				{{ $article->published  ? 'checked' : '' }}
-			@endif
-			{{ null !== old('published') ? 'checked' : '' }}	
+			@endif				
 		>
 		<label class="form-check-label" for="exampleCheck1">Опубликовано</label>
 	</div>

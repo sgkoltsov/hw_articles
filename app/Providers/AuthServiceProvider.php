@@ -38,6 +38,6 @@ class AuthServiceProvider extends ServiceProvider
 
         Blade::directive('endadmin', function() {
             return "<?php endif; ?>";
-        });
+        });        
     }
 }

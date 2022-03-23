@@ -31,7 +31,14 @@ return [
     ],
 
     'admin' => [
+        // 'email' => env('ADMIN_EMAIL'),
         'email' => 'admin@mail.ru',
     ],
 
+    'pushall' => [
+        'api' => [
+            'key' => env('PUSHALL_PRIVATE_KEY'),
+            'id' => env('PUSHALL_PRIVATE_ID'),
+        ],
+    ],
 ];

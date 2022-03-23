@@ -7,6 +7,7 @@ use App\Models\Article;
 use App\Http\Requests\ArticleCreateValidation;
 use App\Http\Requests\ArticleUpdateValidation;
 use App\Services\TagsSynchronizer;
+use App\Services\Pushall;
 
 class ArticlesController extends Controller
 {
@@ -15,8 +16,8 @@ class ArticlesController extends Controller
     public function __construct(TagsSynchronizer $sync)
     {
         $this->sync = $sync;        
-        $this->middleware('can:update,article')->except('index', 'create', 'store');
-        $this->middleware('can:delete,article')->only('destroy');
+        $this->middleware('can:update,article')->only('edit', 'update');
+        $this->middleware('can:delete,article')->only('destroy');        
     } 
 
     public function index()
@@ -37,7 +38,7 @@ class ArticlesController extends Controller
         return view('articles.create');
     }    
 
-    public function store(ArticleCreateValidation $request)
+    public function store(ArticleCreateValidation $request, Pushall $pushall)
 
     {
         $attributes = $request->validated();
@@ -47,7 +48,9 @@ class ArticlesController extends Controller
 
         $article = Article::create($attributes);
 
-        $this->sync->sync(explode(',', $request->tags), $article);        
+        $this->sync->sync(explode(',', $request->tags), $article);
+
+        $pushall->send('Создана новая статья', $attributes['title']);
 
         return redirect('/');        
     }
