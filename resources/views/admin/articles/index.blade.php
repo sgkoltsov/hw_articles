@@ -33,12 +33,17 @@
                         <td>{{  $article->created_at->toFormattedDateString() }}</td>
                         <!-- <td>{{  $article->updated_at->toFormattedDateString() }}</td> -->
                         <td>
-                        	<a class="link-danger" href="/articles/{{ $article->slug }}/edit">Edit</a>
+                            <a class="m-0" href="/articles/{{ $article->slug }}/edit">
+                                <button class="btn btn-info">Edit</button>
+                            </a>
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
+
+        {{ $articles->links() }}
+
     </div>
     
 @endsection

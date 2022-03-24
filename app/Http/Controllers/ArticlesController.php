@@ -22,15 +22,39 @@ class ArticlesController extends Controller
 
     public function index()
     {
-        $articles = Article::with('tags')->latest('updated_at')->where('published', '1')->get();
+        // $articles = Article::with('tags')
+        //     ->latest('updated_at')
+        //     ->where('published', '1')            
+        //     ->get()
+        // ;
 
-        $unpublishedUserArticles = collect();
+        // $unpublishedUserArticles = collect();
 
-        if (auth()->check()) {
-            $unpublishedUserArticles = Article::with('tags')->latest('updated_at')->where('published', '0')->where('user_id', auth()->user()->id)->get();
-        } 
+        // if (auth()->check()) {
+        //     $unpublishedUserArticles = Article::with('tags')
+        //         ->latest('updated_at')
+        //         ->where('published', '0')
+        //         ->where('user_id', auth()->user()->id)                
+        //         ->get()
+        //     ;
+        // } 
         
-        return view('welcome', compact('articles', 'unpublishedUserArticles'));
+        // return view('welcome', compact('articles', 'unpublishedUserArticles'));
+
+        return view('welcome', [
+            'articles' => Article::with('tags')
+                ->latest('updated_at')
+                ->where('published', '1')
+                ->simplePaginate($perPage = 5, $columns = ['*'], $pageName = 'published')
+            ,
+
+            'unpublishedUserArticles' => auth()->check() ? Article::with('tags')
+                ->latest('updated_at')
+                ->where('published', '0')
+                ->where('user_id', auth()->user()->id)
+                ->simplePaginate($perPage = 2, $columns = ['*'], $pageName = 'unpublished') : collect()
+            ,
+        ]);
     }
 
     public function create()
@@ -75,13 +99,13 @@ class ArticlesController extends Controller
 
         $this->sync->sync(explode(',', $request->tags), $article);        
 
-        return redirect('/');
+        return redirect(auth()->user()->isAdmin() ? '/admin/articles' : '/');
     }
 
     public function destroy(Article $article)
     {  
         $article->delete();
 
-        return redirect('/');
+        return redirect(auth()->user()->isAdmin() ? '/admin/articles' : '/');
     }
 }

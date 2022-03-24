@@ -16,8 +16,24 @@
 
 			@include('articles.formfields')		
 
-			<button type="submit" class="btn btn-primary mb-2">Изменить</button>
+			<button type="submit" class="btn btn-primary mb-2" style="width: 200px;">Изменить</button>
 		</form>
+
+		<div class="btn-group">
+
+		  	<form method="post" action="/articles/{{ $article->slug }}">
+
+	            @csrf
+	            @method('delete')
+
+	            <button type="submit" class="btn btn-danger mb-2 me-2" style="width: 200px;">Удалить</button>
+	        </form>
+
+	        <a href="{{ auth()->user()->isAdmin() ? '/admin/articles' : '/' }}">
+	            <button class="btn btn-secondary mb-2" style="width: 200px;">Отмена</button>
+	        </a>
+		</div>
+
 	</div>
 
 @endsection

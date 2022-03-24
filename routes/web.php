@@ -6,6 +6,7 @@ use App\Http\Controllers\FeedbacksController;
 use App\Http\Controllers\TagsController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CommentsController;
+use App\Http\Controllers\NewsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +39,15 @@ Route::get('/admin/feedback', [FeedbacksController::class, 'index'])->middleware
 
 Route::get('/articles/tags/{tag}', [TagsController::class, 'index']);
 
-Route::get('/admin', [AdminController::class, 'index']);
+Route::get('/admin/articles', [AdminController::class, 'indexArticles']);
+Route::get('/admin/news', [AdminController::class, 'indexNews']);
+
+Route::get('/news', [NewsController::class, 'index']);
+Route::get('/news/create', [NewsController::class, 'create']);
+Route::post('/news', [NewsController::class, 'store']);
+Route::get('/news/{news}', [NewsController::class, 'show']);
+Route::get('/news/{news}/edit', [NewsController::class, 'edit']);
+Route::post('/news/{news}', [NewsController::class, 'update']);
+Route::delete('/news/{news}', [NewsController::class, 'destroy']);
 
 Auth::routes();
