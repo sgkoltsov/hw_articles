@@ -21,6 +21,9 @@
                     <p>{{ $article->short }}</p>            
                 </article>
             @endforeach
+
+            {{ $unpublishedUserArticles->links() }}
+
         @endif
 
         <h3 class="pb-4 mb-4 fst-italic border-bottom">
@@ -39,6 +42,9 @@
                 <p>{{ $article->short }}</p>            
             </article>
         @endforeach
+
+        {{ $articles->links() }}
+
     </div>
     
 @endsection

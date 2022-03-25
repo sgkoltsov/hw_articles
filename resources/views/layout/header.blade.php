@@ -49,6 +49,7 @@
 	<div class="nav-scroller py-1 mb-2">
 		<nav class="nav d-flex justify-content-between" style="justify-content: left!important;">
 			<a class="p-2 link-secondary" href="/">Главная</a>
+			<a class="p-2 link-secondary" href="/news">Новости</a>
 			<a class="p-2 link-secondary" href="/about">О нас</a>
 			<a class="p-2 link-secondary" href="/contacts">Контакты</a>
 			<a class="p-2 link-secondary" href="/articles/create">Создать статью</a>			
@@ -60,7 +61,8 @@
 	<div class="nav-scroller">
 		<nav class="nav d-flex justify-content-between" style="justify-content: left!important;">
 			@admin				
-				<a class="p-2 link-info" href="/admin">Управление статьями</a>
+				<a class="p-2 link-info" href="/admin/articles">Управление статьями</a>
+				<a class="p-2 link-info" href="/admin/news">Управление новостями</a>
 				<a class="p-2 link-info" href="/admin/feedback">Просмотр обращений</a>
 			@endadmin
 		</nav>

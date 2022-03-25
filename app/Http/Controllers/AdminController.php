@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Article;
+use App\Models\News;
 
 class AdminController extends Controller
 {
@@ -18,11 +19,27 @@ class AdminController extends Controller
         $this->middleware('admin');
     }
 
-    public function index()
+    public function indexArticles()
     {
-        $articles = Article::with('tags')->latest('updated_at')->get();
+        // $articles = Article::with('tags')->latest('updated_at')->get();
 
-        return view('admin.index', compact('articles'));
+        // return view('admin.articles.index', compact('articles'));
+
+        return view('admin.articles.index', [
+            'articles' => Article::with('tags')
+                ->latest('updated_at')
+                ->simplePaginate(10)
+            ,
+        ]);
+    }
+
+    public function indexNews()
+    {
+        return view('admin.news.index', [
+            'news' => News::latest('updated_at')
+                ->simplePaginate(10)
+            ,
+        ]);
     }
 
     /**

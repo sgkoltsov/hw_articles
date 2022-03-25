@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Article;
 use App\Models\Role;
 use App\Models\Tag;
+use App\Models\News;
 
 class DatabaseSeeder extends Seeder
 {
@@ -41,9 +42,11 @@ class DatabaseSeeder extends Seeder
                 Article::factory()                                       
                     ->for($user, 'owner')
                     ->hasAttached($tags->random($randomTagsCount))
-                    ->create()
+                    ->create(['published' => rand(0, 1)])
                 ;
             }                       
         }
+
+        News::factory()->count(10)->create();
     }
 }
