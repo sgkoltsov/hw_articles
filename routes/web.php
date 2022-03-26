@@ -7,6 +7,9 @@ use App\Http\Controllers\TagsController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\NewsController;
+use Illuminate\Support\Facades\DB;
+use App\Models\Article;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +22,7 @@ use App\Http\Controllers\NewsController;
 |
 */
 
-Route::post('/articles/comments', [CommentsController::class, 'store']);
+Route::post('/comments', [CommentsController::class, 'store']);
 
 Route::get('/', [ArticlesController::class, 'index']);
 Route::get('/articles/create', [ArticlesController::class, 'create'])->middleware('auth');
@@ -33,11 +36,109 @@ Route::get('/about', function() {
 	return view('about');
 });
 
+Route::get('/statistics', function() {
+
+	// поиск авторов с максимальным количеством статей
+	// $arrNumArticles = [];
+
+	// foreach (User::get() as $user) {
+	// 	$arrNumArticles[$user->id] = Article::where('user_id', $user->id)->count();
+	// };
+
+	// $maxNumArticles = max($arrNumArticles);
+
+	// $listUsers = [];
+
+	// foreach ($arrNumArticles as $key => $value) {
+	// 	if ($value === $maxNumArticles) {
+	// 		$listUsers[] = User::where('id', '=', $key)->first();
+	// 	}
+	// }
+
+	// поиск самой длинной статьи
+	$arrLengthArticles = [];
+
+	foreach (Article::get() as $article) {
+		$arrLengthArticles[$article->id] = strlen($article->body);
+	}
+
+	$maxLengthArticles = max($arrLengthArticles);	
+
+	$listMaxArticles = [];
+
+	foreach ($arrLengthArticles as $key => $value) {
+		if ($value === $maxLengthArticles) {
+			$listMaxArticles[] = Article::where('id', '=', $key)->first();
+		}
+	}
+
+	// поиск самой короткой статьи
+	$minLengthArticles = min($arrLengthArticles);	
+
+	$listMinArticles = [];
+
+	foreach ($arrLengthArticles as $key => $value) {
+		if ($value === $minLengthArticles) {
+			$listMinArticles[] = Article::where('id', '=', $key)->first();
+		}
+	}
+
+	// самая изменяемая статья
+	$unstableArticle = DB::table('article_histories')
+		->select(DB::raw('count(*) as change_count, article_id'))
+		->groupBy('article_id')
+		->orderByDesc('change_count')			
+		->first()
+	;
+
+	// самая обсуждаемая статья
+	$discussedArticle = DB::table('comments')
+		->where('commentable_type', 'App\Models\Article')
+		->select(DB::raw('count(*) as comments_count, commentable_id'))
+		->groupBy('commentable_id')
+		->orderByDesc('comments_count')			
+		->first()
+	;
+		
+
+	return view('statistics', [
+
+		'articlesCount' => DB::table('articles')->count(),
+
+		'newsCount' => DB::table('news')->count(),
+
+		'authorWithMaxNumberOfArticles' => User::where('id', DB::table('articles')
+				->select(DB::raw('count(*) as articles_count, user_id'))
+				->groupBy('user_id')
+				->orderByDesc('articles_count')
+				->first()
+				->user_id
+			)->first()
+		,
+
+		'listMaxArticles' => $listMaxArticles,
+
+		'listMinArticles' => $listMinArticles,
+
+		'averageNumberOfArticles' => DB::table('articles')
+			->select(DB::raw('count(*) as articles_count, user_id'))
+			->groupBy('user_id')			
+			->get()
+			->where('articles_count', '>', 1)
+			->avg('articles_count')
+		,
+
+		'unstableArticle' => $unstableArticle ? Article::where('id', $unstableArticle->article_id)->first() : '',
+
+		'discussedArticle' => $discussedArticle ? Article::where('id', $discussedArticle->commentable_id)->first() : '',
+	]);
+});
+
 Route::get('/contacts', [FeedbacksController::class, 'create']);
 Route::post('/admin/feedback', [FeedbacksController::class, 'store']);
 Route::get('/admin/feedback', [FeedbacksController::class, 'index'])->middleware('admin');
 
-Route::get('/articles/tags/{tag}', [TagsController::class, 'index']);
+Route::get('/tags/{tag}', [TagsController::class, 'index']);
 
 Route::get('/admin/articles', [AdminController::class, 'indexArticles']);
 Route::get('/admin/news', [AdminController::class, 'indexNews']);

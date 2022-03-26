@@ -3,11 +3,12 @@
 namespace App\Services;
 
 use App\Models\Article;
+use App\Models\News;
 use App\Models\Tag;
 
 class TagsSynchronizer
 {
-	public function sync($tags, Article $model)
+	public function sync($tags, $model)
 	{
 		$syncIds = [];
 

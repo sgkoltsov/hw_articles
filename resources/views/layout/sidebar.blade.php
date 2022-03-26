@@ -3,7 +3,7 @@
 	    <div class="p-4 mb-3 bg-light rounded">
 	      	<h4 class="fst-italic">Облако тегов</h4>
 	      	
-	      	@include('articles.tags', ['tags' => $tagsCloud])
+	      	@include('tags.tags', ['tags' => $tagsCloud])
 
 	    </div>	   
   	</div>

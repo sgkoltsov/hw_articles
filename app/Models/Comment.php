@@ -11,16 +11,21 @@ class Comment extends Model
 {
     use HasFactory;
 
-    public $fillable = ['body', 'user_id', 'article_id'];
+    public $fillable = ['body', 'user_id', 'commentable_id', 'commentable_type'];
 
     public function user() 
     {
         $this->belongsTo(User::class);
     }
 
-    public function article() 
+    // public function article() 
+    // {
+    //     $this->belongsTo(Article::class);
+    // }
+
+    public function commentable() 
     {
-        $this->belongsTo(Article::class);
+        $this->morphTo();
     }
 
     public function owner()

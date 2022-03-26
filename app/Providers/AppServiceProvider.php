@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         view()->composer('layout.sidebar', function(\Illuminate\View\View $view) {            
-            $view->with('tagsCloud', \App\Models\Tag::has('articles')->get());
+            $view->with('tagsCloud', \App\Models\Tag::get());
         });
 
         Paginator::defaultSimpleView('vendor.pagination.simple-default');

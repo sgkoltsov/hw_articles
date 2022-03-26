@@ -34,11 +34,13 @@ class CommentsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {     
+
         $attributes = $request->validate([
             'body' => 'required',
             'user_id' => 'required',
-            'article_id' => 'required',
+            'commentable_id' => 'required',
+            'commentable_type' => 'required',
         ]);        
 
         Comment::create($attributes);
