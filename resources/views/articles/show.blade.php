@@ -7,7 +7,7 @@
             {{ $article->title }}  
         </h3>
 
-        @include('articles.tags', ['tags' => $article->tags])
+        @include('tags.tags', ['tags' => $article->tags])
              
         <p class="blog-post-meta mb-0">Дата создания: {{  $article->created_at->toFormattedDateString() }}</p>
         <p class="blog-post-meta">Дата последнего редактирования: {{  $article->updated_at->toFormattedDateString() }}</p>
@@ -33,29 +33,9 @@
             <hr>
         @endif
 
-        @include('articles.comments', ['comments' => $article->comments])            
+        @include('comments.show', ['comments' => $article->comments])
 
-        @if (auth()->check())
-            <h4 class="pb-0 mb-4 fst-italic">
-                Оставить комментарий к статье...  
-            </h4>
-
-            <form method="post" action="/articles/comments">
-
-                @csrf               
-
-                <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
-                <input type="hidden" name="article_id" value="{{ $article->id }}">
-                
-                <div class="mb-3">
-                    <textarea class="form-control" name="body" style="min-height: 50px;"></textarea>
-                </div>
-
-                <button type="submit" class="btn btn-primary" style="width: 150px;">Сохранить</button>
-            </form> 
-
-            <hr>
-        @endif
+        @include('comments.create', ['model' => $article])        
 
         <h4 class="pb-0 mb-4 fst-italic">
             История изменений ...  

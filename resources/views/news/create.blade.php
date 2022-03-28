@@ -13,15 +13,7 @@
 
 			@csrf
 
-			<div class="mb-3">
-				<label for="inputTitleNews" class="form-label">Заголовок</label>
-				<input type="text" class="form-control" id="inputTitleNews" name="title">		
-			</div>
-
-			<div class="mb-3">
-				<label for="inputBodyNews" class="form-label">Описание</label>
-				<textarea class="form-control" id="inputBodyNews" name="body" style="min-height: 150px;"></textarea>
-			</div>
+			@include('news.formfields')			
 			
 			<button type="submit" class="btn btn-primary mb-2" style="width: 200px;">Добавить новость</button>				
 			

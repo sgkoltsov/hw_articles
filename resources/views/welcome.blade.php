@@ -13,7 +13,7 @@
                 <article class="blog-post mb-0">
                     <h2 class="blog-post-title"><a href="/articles/{{ $article->slug }}" style="color:red">{{ $article->title }}</a></h2>
 
-                    @include('articles.tags', ['tags' => $article->tags])
+                    @include('tags.tags', ['tags' => $article->tags])
 
                     <p class="blog-post-meta mb-0">Пользователь: {{ $article->owner->name }}</p>
                     <p class="blog-post-meta mb-0">Дата создания: {{  $article->created_at->toFormattedDateString() }}</p>
@@ -34,7 +34,7 @@
             <article class="blog-post mb-0">
                 <h2 class="blog-post-title"><a href="/articles/{{ $article->slug }}">{{ $article->title }}</a></h2>
 
-                @include('articles.tags', ['tags' => $article->tags])
+                @include('tags.tags', ['tags' => $article->tags])
 
                 <p class="blog-post-meta mb-0">Пользователь: {{ $article->owner->name }}</p>
                 <p class="blog-post-meta mb-0">Дата создания: {{  $article->created_at->toFormattedDateString() }}</p>

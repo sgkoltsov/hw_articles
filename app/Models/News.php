@@ -10,4 +10,14 @@ class News extends Model
     use HasFactory;
 
     protected $fillable = ['title', 'body'];
+
+    public function tags()
+    {
+        return $this->morphToMany(Tag::class, 'taggable');
+    }
+
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
 }

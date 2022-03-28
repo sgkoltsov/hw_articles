@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\News;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Services\TagsSynchronizer;
 
 class NewsController extends Controller
 {
@@ -14,8 +15,11 @@ class NewsController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function __construct()
+    private TagsSynchronizer $sync;
+
+    public function __construct(TagsSynchronizer $sync)
     {
+        $this->sync = $sync;
         $this->middleware('admin')->except('index', 'show');
     }
 
@@ -53,7 +57,9 @@ class NewsController extends Controller
             'body' => 'required',
         ]);
 
-        News::create($attributes);
+        $news = News::create($attributes);
+
+        $this->sync->sync(explode(',', $request->tags), $news);
 
         return redirect('/admin/news');
     }
@@ -95,6 +101,8 @@ class NewsController extends Controller
         ]);
 
         $news->update($attributes);
+
+        $this->sync->sync(explode(',', $request->tags), $news);
 
         return redirect('/admin/news');
     }

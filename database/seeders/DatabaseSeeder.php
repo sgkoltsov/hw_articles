@@ -47,6 +47,16 @@ class DatabaseSeeder extends Seeder
             }                       
         }
 
-        News::factory()->count(10)->create();
+        $randomNewsCount = rand(10, 20);
+            
+        for ( $i = 0 ; $i < $randomNewsCount ; $i++ ) {
+       
+            $randomTagsCount = rand(1, 5);
+
+            News::factory()
+                ->hasAttached($tags->random($randomTagsCount))
+                ->create()
+            ;
+        }        
     }
 }

@@ -7,6 +7,8 @@ use App\Http\Controllers\TagsController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\StatisticsController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +21,7 @@ use App\Http\Controllers\NewsController;
 |
 */
 
-Route::post('/articles/comments', [CommentsController::class, 'store']);
+Route::post('/comments', [CommentsController::class, 'store']);
 
 Route::get('/', [ArticlesController::class, 'index']);
 Route::get('/articles/create', [ArticlesController::class, 'create'])->middleware('auth');
@@ -33,11 +35,13 @@ Route::get('/about', function() {
 	return view('about');
 });
 
+Route::get('/statistics', [StatisticsController::class, 'index']);
+
 Route::get('/contacts', [FeedbacksController::class, 'create']);
 Route::post('/admin/feedback', [FeedbacksController::class, 'store']);
 Route::get('/admin/feedback', [FeedbacksController::class, 'index'])->middleware('admin');
 
-Route::get('/articles/tags/{tag}', [TagsController::class, 'index']);
+Route::get('/tags/{tag}', [TagsController::class, 'index']);
 
 Route::get('/admin/articles', [AdminController::class, 'indexArticles']);
 Route::get('/admin/news', [AdminController::class, 'indexNews']);
